@@ -1,52 +1,61 @@
-// Create a aws rds aurora cli used to skip many replication errors pass in the endpint, username, password, and db name.
+// Create a aws rds aurora cli used to skip many replication errors pass in the endpint.
+package main
 
 import (
-	"fmt"
-	"os"
-	"strings"
 	"flag"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/rds"
+	"fmt"
+	"os/exec"
 )
 
-// Set the flags.
-var (
-	endpoint = flag.String("endpoint", "", "endpoint")
-	//region 	 =	flag.String("endpoint", "", "endpoint"
-)
+// Set the default values for the flags.
+var dbEndPoint string
 
-// Check the AWS RDS AURORA replication status and skip errors until it is in a good state.
-func main() {
-	flag.Parse()
-	if *endpoint == "" {
-		fmt.Println("endpoint is required")
-		os.Exit(1)
-	}
-
-	// Create a new session with a config
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-
-	// Create a new RDS client
-	svc := rds.New(sess)
-
-	// Get the replication status.
-	result, err := svc.DescribeDBClusterEndpoints(&rds.DescribeDBClusterEndpointsInput{
-		DBClusterEndpointIdentifier: aws.String(*endpoint),
-	})
+func execute() {
+	//fmt.Printf("dbEndPoint = %v\n", dbEndPoint)
+	bashCommand := fmt.Sprintf(`mysql -h %v -t -e "show slave status\G"`, dbEndPoint)
+	//fmt.Printf("Exicuting command:\n%v\n\n", bashCommand)
+	out, err := exec.Command("bash", "-c", bashCommand).Output()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		fmt.Printf("%v", err)
 	}
+	fmt.Println("Command Successfully Executed")
+	fmt.Println(string(out))
+}
 
-	// Check the replication status and skip errors if on Duplicate entry.
-	for _, status := range result.DBClusterEndpoints[0].StatusInfos {
-		if strings.Contains(*status.Message, "Duplicate entry") {
-			fmt.Println("Duplicate entry found, skipping")
-			os.Exit(0)
-		}
+func fixit() {
+	//fmt.Printf("dbEndPoint = %v\n", dbEndPoint)
+	bashCommand2 := fmt.Sprintf(`mysql -h %v -t -e "CALL mysql.rds_skip_repl_error()"`, dbEndPoint)
+	out, err := exec.Command("bash", "-c", bashCommand2).Output()
+	if err != nil {
+		fmt.Printf("%v", err)
+	}
+	fmt.Println("Command Successfully Executed")
+	fmt.Println(string(out))
+}
+
+// main function
+func main() {
+	flag.StringVar(&dbEndPoint, "h", "", "Specify the AWS EndPoint.")
+	flag.Parse()
+
+	if dbEndPoint != "" {
+		execute()
+		return
+	}
+	flag.PrintDefaults()
+	return
+	// if show slave status has Duplicate entry error then loop calling until CALL mysql.rds_skip_repl_error() until no error.
+	input := "Duplicate entry"
+	
+	if  strings.Contains(execute(), input) {
+		fmt.Printf("Duplicate entry error found.\n")
+		for strings.Contains(execute(), input) {
+			fmt.Printf("Duplicate entry error found.\n")
+			fixit()
+		}else {
+			fmt.Printf("Duplicate entry error not found.\n")
+			// Do I need a break to get out of the loop?
+			
+		}	
 	}
 }
