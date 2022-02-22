@@ -11,5 +11,5 @@ EVERY 15 MINUTE
 COMMENT 'Calling rds_skip_repl_error to skip replication error'
 Do
 CALL mysql.rds_skip_repl_error;
-/*also you can add other logic */
+
 ```
