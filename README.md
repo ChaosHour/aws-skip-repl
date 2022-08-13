@@ -1,8 +1,6 @@
 # aws-skip-repl
 
-This is kinda a waste of time as I could and should just create the event from below.  But, once again I am trying to learn.
-I have not found any functions in the aws-sdk-go to do the same as of yet.
-
+## aws-skip-repl
 
 ```bash
 replit.sh a bash script to help you skip AWS RDS Aurora Replication records. Only use this if you are sure it\'s ok to skip those records.
