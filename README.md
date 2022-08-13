@@ -1,6 +1,7 @@
 # aws-skip-repl
 
-## aws-skip-repl
+You need the mysql-client installed to use the bash script.
+Login access to the Aurora database is required if you plan on creating the Event.
 
 ```bash
 replit.sh a bash script to help you skip AWS RDS Aurora Replication records. Only use this if you are sure it\'s ok to skip those records.
