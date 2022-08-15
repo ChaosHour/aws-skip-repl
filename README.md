@@ -9,6 +9,25 @@ Only use this if you are sure it's ok to skip those records.
 
 ```bash
 
+You can put it in a screen session to keep it running.
+
+screen -d -RR scan
+
+
+If you have the watch command installed, you can use it to keep the script running.
+
+watch -n 1800 -c ./rel2.sh
+
+If you don't have the watch command, you can use cron to run it every 30 minutes.
+
+while :; do ./repl2.sh ; sleep 1800 ; done
+
+Or you can use cron to run it every 30 minutes.
+
+*/30 * * * * /path/to/repl2.sh
+
+```
+
 ./replit.sh          
 No arguments provided
 Usage: ./replit.sh <AWS-EndPoint>
