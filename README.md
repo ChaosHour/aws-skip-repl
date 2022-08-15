@@ -3,7 +3,8 @@
 You need the mysql-client installed to use the bash script.
 
 Note:
-replit.sh a bash script to help you skip AWS RDS Aurora Replication records. 
+
+replit.sh is a bash script to help you skip AWS RDS Aurora Replication records. 
 Only use this if you are sure it's ok to skip those records.
 
 
