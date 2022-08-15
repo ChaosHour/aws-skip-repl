@@ -18,8 +18,7 @@ If you have the watch command installed, you can use it to keep the script runni
 
 watch -n 1800 -c ./rel2.sh
 
-If you don't have the watch command, you can use cron to run it every 30 minutes.
-
+If you don't have the watch command, you can use a while true loop to keep the script running.
 while :; do ./repl2.sh ; sleep 1800 ; done
 
 Or you can use cron to run it every 30 minutes.
