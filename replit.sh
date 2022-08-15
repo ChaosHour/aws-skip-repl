@@ -14,7 +14,7 @@ fi
 # set the variables for your log.
 log=repl.log
 
-# create log file or overrite if already present
+# create log file and append date and time to the log file.
 printf "Log File - " >> ${log}
 
 # append date to log file
