@@ -12,7 +12,11 @@ You need the mysql-client installed to use the bash script.
 
 You can put it in a screen session to keep it running.
 
-screen -d -RR scan
+screen -d -RR fix-replication
+
+```
+
+```bash
 
 
 If you have the watch command installed, you can use it to keep the script running.
