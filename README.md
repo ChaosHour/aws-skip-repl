@@ -28,18 +28,18 @@ Or you can use cron to run it every 30 minutes.
 
 ```
 
+```bash
 ./replit.sh          
 No arguments provided
 Usage: ./replit.sh <AWS-EndPoint>
 ```
 
-Or
-
-
+```bash
 Create a AWS RDS Aurora Event to skip the Replication records.
 
 Note:
 Login access to the Aurora database is required if you plan on creating the Event.
+```
 
 ```SQL
 CREATE EVENT repl_error_skipper 
