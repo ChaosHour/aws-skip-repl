@@ -35,7 +35,12 @@ Usage: ./replit.sh <AWS-EndPoint>
 ```
 
 
+
+
+
+
 > Create a AWS RDS Aurora Event to skip the Replication records.
+
 
 **Note:**
 
